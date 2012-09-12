@@ -27,7 +27,7 @@ class Form(SessionSecureForm):
     secret_key - a secret key for building CSRF tokens. If this isn't specified,
       the form will take the first of these that is defined:
         * the SECRET_KEY attribute on this class
-        * the value of flask.current_app.config["SECRET_KEY"]
+        * the value of flask.current_app.config["CSRF_SECRET_KEY"]
         * the session's secret_key
       If none of these are set, raise an exception.
 
@@ -60,7 +60,7 @@ class Form(SessionSecureForm):
                 secret_key = getattr(self, "SECRET_KEY", None)
             if secret_key is None:
                 # It wasn't on the class, check the application config
-                secret_key = current_app.config.get("SECRET_KEY")
+                secret_key = current_app.config.get("CSRF_SECRET_KEY")
             if secret_key is None and session:
                 # It's not there either! Is there a session secret key if we can
                 secret_key = session.secret_key
